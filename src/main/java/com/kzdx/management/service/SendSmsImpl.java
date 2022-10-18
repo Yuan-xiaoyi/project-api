@@ -23,7 +23,8 @@ public class SendSmsImpl implements SendSms {
 
     public boolean send(String phoneNum, String templateCode, java.util.Map<String, Object> code) throws Exception{
         //下面将你获得的AccessKey ID和AccessKey Secret填入
-        com.aliyun.dysmsapi20170525.Client client = SendSmsImpl.createClient("LTAI5tHwXPBEu5fgL61e3AtR", "a4EVB31FvvBXL2AMaXREy0vHnkRG3j");
+        com.aliyun.dysmsapi20170525.Client client = SendSmsImpl.createClient("LTAI5tDDuxbcniifi55PgR5U", "iZGpXKou2iTmDfEdQ8rrBnyZCNBIRd");
+                // ("LTAI5tHwXPBEu5fgL61e3AtR", "a4EVB31FvvBXL2AMaXREy0vHnkRG3j"); // 余
         SendSmsRequest sendSmsRequest = new SendSmsRequest()
                 .setPhoneNumbers(phoneNum)
                 .setSignName("阿里云短信测试")
