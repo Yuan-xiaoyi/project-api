@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kzdx.management.mapper.ProjectMapper">
+
+
+    <insert id="addProject" >
+        insert into project(project_id,project_name,create_time,details,industry,state,proprietor,main_manager,fen_manager,agent,significance)
+        values(#{projectId},#{projectName},#{createTime},#{details},#{industry},#{state},#{proprietor},#{mainManager},#{fenManager},#{agent},#{significance})
+    </insert>
+
+
+    <select id="findProjectBySelection" resultType="com.kzdx.management.entity.Project">
+
+        SELECT p.* FROM
+        <if test="post != null and userId != null and post != 'admin' and post != 'manager'" > <!-- 如果有职位和userid传入 则拼接member表查询-->
+        project_member pm left join
+        </if>
+        project p
+        <if test="post != null and userId != null and post != 'admin' and post != 'manager'"> <!-- 如果有职位和userid传入 则拼接member表查询-->
+        on p.project_id=pm.project_id
+        </if>
+
+        where 1=1
+        <if test="post != null and userId != null and post != 'admin' and post != 'manager'" >
+            and pm.user_id = #{userId}
+        </if>
+        <if test="projectName != null">
+            and project_name like concat('%', concat(#{projectName}, '%'))
+        </if>
+        <if test="state != null">
+            and state = #{state}
+        </if>
+        <if test="createTime != null and createTime != 'null'">
+            and create_time like concat('%', concat(#{createTime}, '%'))
+        </if>
+        <if test="industry != null">
+            and industry = #{industry}
+        </if>
+
+        order by state asc,significance desc
+
+    </select>
+
+</mapper>

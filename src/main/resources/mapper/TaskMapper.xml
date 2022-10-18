@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kzdx.management.mapper.TaskMapper">
+
+
+
+<select id="findTaskBySelection" resultType="com.kzdx.management.entity.Task">
+
+    SELECT DISTINCT t.*,p.project_name,u.user_name hand_person FROM task t
+    left join project p on t.project_id=p.project_id
+    left join task_record re on re.task_id=t.task_id
+    left join user u on u.user_id=re.hand_person_id
+    where 1=1
+    <if test="projectIDs != null">
+        and t.project_id in
+        <foreach close=")" collection="projectIDs" item="listItem" open="(" separator=",">
+                    #{listItem}
+        </foreach>
+    </if>
+    <if test="state != null">
+        and t.state = #{state}
+    </if>
+    <if test="createTime != null and createTime != 'null'">
+        and t.create_time like concat('%', concat(#{createTime}, '%'))
+    </if>
+    <if test="taskName != null">
+        and t.task_name like concat('%', concat(#{taskName}, '%'))
+    </if>
+    <if test="isTask != null">
+        and t.istask = #{isTask}
+    </if>
+
+    order by state asc,create_time asc
+
+
+</select>
+</mapper>
