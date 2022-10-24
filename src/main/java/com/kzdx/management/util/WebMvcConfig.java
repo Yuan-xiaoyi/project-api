@@ -52,7 +52,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
         //排除拦截，除了注册登录(此时还没token)，其他都拦截
         excludePath.add("/login");  //登录
         excludePath.add("/SendSms");  //发送验证码
-        excludePath.add("/getsessionkey");
+        excludePath.add("/findUserByPhoneNumber");  //获取用户信息
+        excludePath.add("/getsessionkey"); // 微信获取用户电话号码
         excludePath.add("/loginWx");  //静态资源
 
         registry.addInterceptor(tokenInterceptor)

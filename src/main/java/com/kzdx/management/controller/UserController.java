@@ -1,7 +1,9 @@
 package com.kzdx.management.controller;
 
 import com.kzdx.management.entity.User;
+import com.kzdx.management.service.LoginService;
 import com.kzdx.management.service.UserService;
+import com.kzdx.management.util.TokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -59,11 +61,30 @@ public class UserController {
     public void updateUserinfo(User user){
         userService.updateUserinfo(user);
     }
+
     //删除用户信息
     @RequestMapping("/deleteUser")
     @ResponseBody
     public void deleteUser(@RequestParam(required = false)String userId){
         userService.deleteUser(userId);
+    }
+
+    //刷新token
+    @RequestMapping("/refreshToken")
+    @ResponseBody
+    public HashMap<String,String> refreshToken(@RequestParam(required = false)String phoneNumber){
+        User userinfo= userService.findUserByPhoneNumber(phoneNumber);
+        if(userinfo!=null){
+            User user = new User();
+            user.setUserName(userinfo.getUserName());
+            String signToken = TokenUtil.sign(user); // 刷新token签名
+
+            HashMap<String,String> jsonObject=new HashMap<>();
+            jsonObject.put("token",signToken);
+            jsonObject.put("msg","刷新token成功");
+            return jsonObject;
+        }
+        return  null;
     }
 
 }

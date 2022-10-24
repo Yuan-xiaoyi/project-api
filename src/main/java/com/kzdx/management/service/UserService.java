@@ -3,6 +3,7 @@ package com.kzdx.management.service;
 import com.kzdx.management.entity.User;
 import com.kzdx.management.mapper.UserMapper;
 import com.kzdx.management.util.Bv;
+import com.kzdx.management.util.TokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -67,8 +68,5 @@ public class UserService {
     public void deleteUser(String userId){
         userMapper.delete(userId);
     }
-
-
-    //获取验证码
 
 }

@@ -18,9 +18,14 @@ class TokenInterceptor implements HandlerInterceptor {
         response.setCharacterEncoding("utf-8");
         String token = request.getHeader("token"); //前端vue将token添加在请求头中
         if(token != null){
-            boolean result = TokenUtil.verify(token);
-            if(result){
+            Integer result = TokenUtil.verify(token);
+            if(result > 0){
                 System.out.println("通过拦截器");
+                String refreshToken = request.getHeader("refreshToken");
+                if(result.equals(2) && refreshToken == null){ // 即将过期,且不是调用更新token的接口
+                    response.setHeader("refreshToken", "true");
+                    response.setHeader("Access-Control-Expose-Headers", "refreshToken");
+                }
                 return true;
             }
         }
@@ -28,7 +33,7 @@ class TokenInterceptor implements HandlerInterceptor {
         response.setContentType("application/json; charset=utf-8");
         try{
             JSONObject json = new JSONObject();
-            json.put("msg","token verify fail");
+            json.put("msg","token过期，请重新登录");
             json.put("code","500");
             response.getWriter().append(json.toJSONString());
             System.out.println("认证失败，未通过拦截器");

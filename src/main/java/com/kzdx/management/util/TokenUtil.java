@@ -9,7 +9,7 @@ import com.kzdx.management.entity.User;
 import java.util.Date;
 
 public class TokenUtil {
-    private static final long EXPIRE_TIME= 2*60*60*1000; //过期时间：10 hour
+    private static final long EXPIRE_TIME= 60*60*1000; //过期时间：1 hour
     private static final String TOKEN_SECRET="HaiQing";  //密钥盐
 
     /**
@@ -39,16 +39,21 @@ public class TokenUtil {
      * @param token
      * @return
      */
-    public static boolean verify(String token){
+    public static Integer verify(String token){
         try {
             JWTVerifier verifier = JWT.require(Algorithm.HMAC256(TOKEN_SECRET)).withIssuer("auth0").build();
             DecodedJWT jwt = verifier.verify(token);
-            System.out.println("认证通过：");
-            System.out.println("username: " + jwt.getClaim("username").asString());
-            System.out.println("过期时间：      " + jwt.getExpiresAt());
-            return true;
+            Date time = new Date();
+            System.out.println(jwt.getExpiresAt().getTime() - time.getTime());
+            if(jwt.getExpiresAt().getTime() - time.getTime() < 2*60*1000){ // 距离过期时间2分钟调用接口， 则调用自动刷新token接口
+                return 2;
+            }else {
+                return 1;
+            }
+//            return true;
         } catch (Exception e){
-            return false;
+//            return false;
+            return -1;
         }
     }
 }
