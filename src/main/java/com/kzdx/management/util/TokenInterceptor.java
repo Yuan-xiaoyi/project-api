@@ -1,10 +1,12 @@
 package com.kzdx.management.util;
 
 import com.alibaba.fastjson.JSONObject;
+import com.kzdx.management.entity.User;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
 
 //拦截token
 @Component
@@ -21,9 +23,13 @@ class TokenInterceptor implements HandlerInterceptor {
             Integer result = TokenUtil.verify(token);
             if(result > 0){
                 System.out.println("通过拦截器");
-                String refreshToken = request.getHeader("refreshToken");
-                if(result.equals(2) && refreshToken == null){ // 即将过期,且不是调用更新token的接口
-                    response.setHeader("refreshToken", "true");
+                if(result.equals(2)){ // 即将过期
+                    // 后台自动更新token，不必调用refreshToken接口
+                    String userName = TokenUtil.analysisToken(token);
+                    User user = new User();
+                    user.setUserName(userName);
+                    String refreshToken = TokenUtil.sign(user); // 刷新token签名
+                    response.setHeader("refreshToken", refreshToken);
                     response.setHeader("Access-Control-Expose-Headers", "refreshToken");
                 }
                 return true;

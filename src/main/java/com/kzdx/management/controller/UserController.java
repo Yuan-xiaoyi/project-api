@@ -69,22 +69,4 @@ public class UserController {
         userService.deleteUser(userId);
     }
 
-    //刷新token
-    @RequestMapping("/refreshToken")
-    @ResponseBody
-    public HashMap<String,String> refreshToken(@RequestParam(required = false)String phoneNumber){
-        User userinfo= userService.findUserByPhoneNumber(phoneNumber);
-        if(userinfo!=null){
-            User user = new User();
-            user.setUserName(userinfo.getUserName());
-            String signToken = TokenUtil.sign(user); // 刷新token签名
-
-            HashMap<String,String> jsonObject=new HashMap<>();
-            jsonObject.put("token",signToken);
-            jsonObject.put("msg","刷新token成功");
-            return jsonObject;
-        }
-        return  null;
-    }
-
 }
