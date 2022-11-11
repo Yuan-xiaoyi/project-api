@@ -21,14 +21,14 @@ public interface ProjectMapper {
 
     //根据Id查项目
     @Select("""
-            select project_id,project_name,create_time,details,industry,state,proprietor,main_manager,fen_manager,agent,bidding,significance
+            select project_id,project_name,create_time,details,industry,state,proprietor,main_manager,fen_manager,agent,important,bidding,significance
             from project where project_id=#{projectId}
             """)
    Project findProjectById(String projectId);
 
 
     //修改项目
-    @Update("update project set project_name=#{projectName},details=#{details},industry=#{industry},state=#{state},proprietor=#{proprietor},main_manager=#{mainManager},fen_manager=#{fenManager},agent=#{agent},bidding=#{bidding},significance=#{significance} where project_id=#{projectId}")
+    @Update("update project set project_name=#{projectName},details=#{details},industry=#{industry},state=#{state},proprietor=#{proprietor},main_manager=#{mainManager},fen_manager=#{fenManager},agent=#{agent},important=#{important},bidding=#{bidding},significance=#{significance} where project_id=#{projectId}")
    Integer updateProject(Project project);
 
     //删除项目

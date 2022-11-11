@@ -40,7 +40,7 @@ public interface TaskMapper {
 
     //根据taskID查找任务详情
     @Select("""
-            select * from task where task_id=#{taskId}
+            select t.*,p.project_name from task t left join project p on t.project_id=p.project_id where task_id=#{taskId}
             """)
     Task findByTaskId(String taskId);
 

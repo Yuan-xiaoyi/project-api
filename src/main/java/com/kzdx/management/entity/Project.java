@@ -14,6 +14,8 @@ public class Project {
     private String mainManager;//项目主管领导
     private String fenManager;//分管领导
     private String agent;//项目经办人
+
+    private String important;//项目经办人
     private String bidding;//是否我方中标
 
     private String significance;//重要性（星级）
@@ -23,7 +25,8 @@ public class Project {
     public Project() {
     }
 
-    public Project(String projectId, String projectName, LocalDateTime createTime, String details, String industry, Integer state, String proprietor, String mainManager, String fenManager, String agent, String bidding, String significance, List<Task> taskList, List<Summarize> summarizeList) {
+
+    public Project(String projectId, String projectName, LocalDateTime createTime, String details, String industry, Integer state, String proprietor, String mainManager, String fenManager, String agent, String important, String bidding, String significance, List<Task> taskList, List<Summarize> summarizeList) {
         this.projectId = projectId;
         this.projectName = projectName;
         this.createTime = createTime;
@@ -34,6 +37,7 @@ public class Project {
         this.mainManager = mainManager;
         this.fenManager = fenManager;
         this.agent = agent;
+        this.important = important;
         this.bidding = bidding;
         this.significance = significance;
         this.taskList = taskList;
@@ -54,6 +58,14 @@ public class Project {
 
     public void setProjectId(String projectId) {
         this.projectId = projectId;
+    }
+
+    public String getImportant() {
+        return important;
+    }
+
+    public void setImportant(String important) {
+        this.important = important;
     }
 
     public String getProjectName() {

@@ -54,6 +54,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         excludePath.add("/SendSms");  //发送验证码
 //        excludePath.add("/findUserByPhoneNumber");  //获取用户信息
         excludePath.add("/getsessionkey"); // 微信获取用户电话号码
+        excludePath.add("/getsessionkey2"); // 微信获取用户电话号码
         excludePath.add("/loginWx");  //静态资源
 
         registry.addInterceptor(tokenInterceptor)

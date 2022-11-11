@@ -35,14 +35,14 @@ public class TaskRecordService {
         HashMap<String,String> result=new HashMap<>();
         if(res>0){
             //----------发送通知短信----------
-            //获取用户ID
+            //获取任务处理人ID
            TaskRecord ta = taskRecordMapper.findTaskRecordByRecordId(taskRecord.getRecordId());
            String userId=ta.getHandPersonId();
-            //获取存入用户的手机号码
+            //获取任务处理人的手机号码
             User user= userService.findUserByUserId(userId);
-            String telephone = user.getUserId();
+            String telephone = user.getPhoneNumber();
             //调用发送短信接口
-            sendSms.send(telephone,"SMS_154950909");
+            sendSms.send(telephone,"SMS_256930110");
 
             result.put("msg","添加成功");
             return result;
@@ -62,13 +62,13 @@ public class TaskRecordService {
 
             if(taskRecord.getState()==1){
                 //----------发送通知短信----------
-                //获取用户ID
+                //获取任务审批人ID
                 TaskRecord ta = taskRecordMapper.findTaskRecordByRecordId(taskRecord.getRecordId());
-                //获取存入用户的手机号码
+                //获取任务审批人的手机号码
                 User user= userService.findUserByUserId(ta.getCheckPersonId());
-                String telephone = user.getUserId();
+                String telephone = user.getPhoneNumber();
                 //调用发送短信接口
-                sendSms.send(telephone,"SMS_154950909");
+                sendSms.send(telephone,"SMS_256930110");
             }
             result.put("msg","修改成功");
             return result;

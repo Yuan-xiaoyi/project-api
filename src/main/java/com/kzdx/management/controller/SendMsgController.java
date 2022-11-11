@@ -46,7 +46,7 @@ public class SendMsgController {
             code = String.valueOf((int) (Math.random() * 999999) + 100);
             param.put("code", code);
             //调用发送验证码方法，将发送的手机号，短信模板，以及验证码传入
-            boolean isSend = sendSms.send(telephone, "SMS_154950909", param);
+            boolean isSend = sendSms.send(telephone, "SMS_256905172", param);
             //如果发送成功，则将手机号和验证码存入Redis,设置为2分钟后过期
             if (isSend) {
                 redisTemplate.opsForValue().set(telephone, code, 30, TimeUnit.MINUTES);
